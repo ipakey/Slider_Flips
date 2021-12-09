@@ -30,7 +30,7 @@ body {
 .page-text{
   font-size: clamp(.8rem, 1.1vw, 1.25rem);
   margin:auto;
-  width: 70%;
+  /* width: 70%; */
   color: #1f2041;
 }
   
@@ -86,7 +86,7 @@ body {
     width: 100%;
     height: 100%;
     text-align: center;
-    
+    z-index: 10;
   }
 
   .slide-card-front, .slide-card-back{
@@ -112,12 +112,13 @@ body {
 
   .slide-card-inner .slide-card-back:hover {
     opacity: 0;
-    
+    color: inherit;
   }
 
   .slide-card-inner .slide-card-front:hover {
     opacity: 1;
     background: inherit;
+    backface-visibility: hidden;
   }
 
   .slide-card-front {
@@ -149,7 +150,7 @@ body {
     position: relative;
     align-content: space-around;
     border: orangered 3px ridge;
-    border-radius: 8px  8px 8px 0px ;
+    border-radius: 8px  0px 8px 0px ;
     width: 70%;
     padding: .2rem .5rem;
     
@@ -164,7 +165,7 @@ body {
   .btn{
     width: 2rem;
     height: 1.5rem;
-    border-radius: 8px  8px 8px 0px ;
+    border-radius: 8px  0px 8px 0px ;
     align-items: center;
     text-decoration: none;
     border: orangered 3px ridge;
@@ -188,7 +189,7 @@ body {
   .score-card{
     text-decoration: none;
     border: orangered 3px ridge;
-    border-radius: 8px  8px 8px 0px ;
+    border-radius: 8px  0px 8px 0px ;
     padding: .2rem .5rem;
     margin: auto;
   }

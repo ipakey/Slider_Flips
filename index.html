@@ -6,9 +6,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Slider Flip</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/game.css">
+    
 </head>
-<body>
+<body onload="updateCards()">
     <div class="page-title">Flashcards <br class='line-break'> for You</div>
+    <div id="hud">
+        <div class="results">
+           
+                <p id="progressText" class="hud-prefix page-text">Question
+                    <div id="progressBarFull"></div>
+                </p>
+
+                <p  class="progressText" >Score
+                    <div id="scoreBar"></div>
+                </p>
+
+                <button onclick="increase()">increase</button>
+            
+        </div>
+
+    </div>
     <section id="slider">
         
         <input type="radio" name="slider" id="s1" checked>
@@ -17,28 +35,63 @@
         <input type="radio" name="slider" id="s4">
         <input type="radio" name="slider" id="s5">
       
+        
         <label for="s1" id="slide1" class='slide-card-inner page-title'>
-            <div class="slide-card-back"><img class="question">Question 1</div> 
-            <div class="slide-card-front"><img class="answer">Answer 1</div>
+            <div class="slide-card-back">    
+                <p id="title">Question 1: What is the answer to this question? </p><br>   
+                <p id='question1' class="question-text question1" data-number="1">
+            </div>
+            <div class="slide-card-front">
+                <p  id="title">Answer to Question 1</p><br> 
+                <p id='answer1' class="question-text answer1" data-number="1">
+            </div>
         </label>
-        <label for="s2" id="slide2" class='slide-card-inner page-title'> 
-            <div class="slide-card-back"><img class="question">Question 2</div> 
-            <div class="slide-card-front"><img class="answer">Answer 2</div>
+
+        <label for="s2" id="slide2" class='slide-card-inner page-title'>
+            <div class="slide-card-back">    
+                <p id="title">Question 2: What is the answer to this question? </p><br>   
+                <p id='question2' class="question-text question2" data-number="2">
+            </div>
+            <div class="slide-card-front">
+                <p  id="title">Answer to Question 2</p><br> 
+                <p id='answer2' class="question-text answer2" data-number="2">
+            </div>
         </label>
-        <label for="s3" id="slide3" class='slide-card-inner page-title'> 
-            <div class="slide-card-back"><img class="question">Question 3</div> 
-            <div class="slide-card-front"><img class="answer">Answer 3</div>
+
+        <label for="s3" id="slide3" class='slide-card-inner page-title'>
+            <div class="slide-card-back">    
+                <p id="title">Question 3: What is the answer to this question? </p><br>   
+                <p id='question3' class="question-text question" data-number="3">
+            </div>
+            <div class="slide-card-front">
+                <p  id="title">Answer to Question 3</p><br> 
+                <p id='answer3' class="question-text answer" data-number="3">
+            </div>
         </label>
-        <label for="s4" id="slide4" class='slide-card-inner page-title'> 
-            <div class="slide-card-back"><img class="question">Question 4</div> 
-            <div class="slide-card-front"><img class="answer">Answer 4</div>
+
+        <label for="s4" id="slide4" class='slide-card-inner page-title'>
+            <div class="slide-card-back">    
+                <p id="title">Question 4: What is the answer to this question? </p><br>   
+                <p id='question4' class="question-text question" data-number="4">
+            </div>
+            <div class="slide-card-front">
+                <p  id="title">Answer to Question 4</p><br> 
+                <p id='answer4' class="question-text answer" data-number="4">
+            </div>
         </label>
-        <label for="s5" id="slide5" class='slide-card-inner page-title'> 
-            <div class="slide-card-back"><img class="question">Question 5</div> 
-            <div class="slide-card-front"><img class="answer">Answer 5</div>
-        </label>
-      </section>
-      <div class='container'>
+
+        <label for="s5" id="slide5" class='slide-card-inner page-title'>
+            <div class="slide-card-back">    
+                <p id="title">Question 5: What is the answer to this question? </p><br>   
+                <p id='question5' class="question-text question" data-number="5">
+            </div>
+            <div class="slide-card-front">
+                <p  id="title">Answer to Question 5</p><br> 
+                <p id='answer5' class="question-text answer" data-number="5">
+            </div>
+        </label> 
+    </section>
+    <div class='container'>
         <p class='page-text'>Select your slide  ~ think about the answer ~ </br> click the card to check your answer</p>
         <form action="" method="post" class='form-page'>
             <label for="no-button" class='page-text'> Did you get this one right?</label><br class='line-break'> 
@@ -54,5 +107,6 @@
             <a href="#" class="score-card page-text" id="result5">Percentage correct so far  4</a>
         </div>
     </div>
+    <script src="./js/game.js"></script>
 </body>
 </html>

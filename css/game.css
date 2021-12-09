@@ -1,0 +1,75 @@
+
+
+.hud-prefix{
+    text-align: center;
+}
+
+#progressBar{
+    width: 20rem;
+    height: 1rem;
+    border: 0.2rem solid rgb(11,223,36);
+    margin-top: 2rem;
+    border-radius: 50px;
+    overflow: hidden;
+}
+
+#progressBarFull{
+    height: 100%;
+    background: rgb(11,223,36);
+    width: 0% ;
+}
+
+.progress{
+    background: red;
+    padding: 3px;
+}
+
+.progressBarFull{
+    background: rgb(11,223,36);
+    height: 10px;
+}
+
+
+#scoreBar{
+    width: 20rem;
+    height: 1rem;
+    border: 0.2rem solid rgb(11,223,36);
+    margin-top: 2rem;
+    border-radius: 50px;
+    overflow: hidden;
+}
+
+#scoreBarFull{
+    height: 100%;
+    background: rgb(11,223,36);
+    width: 0% ;
+}
+
+
+.question-container{
+    display: flex;
+    margin-bottom: 0.8rem;
+    width: 90%;
+    border-radius: 8px;
+    background: #680202;
+    background: linear-gradient(90deg, rgb(15, 0, 0) 0%, rgb(247, 128, 112) 100%);
+    font-size: 3rem;
+    min-width: 70rem;
+}
+
+.question-text{
+    padding: 2rem;
+    width: 90%;
+    align-content: center;
+    color: cornsilk;  
+    margin: auto;  
+}
+
+
+.correct{
+    background: linear-gradient(32deg, rgba(11,223,36)0%, rgb(41,232,111)100%);
+}
+
+.incorrect{
+    background: linear-gradient(32deg, rgba(230,29,29,1)0%, rgb(224,11,11,1)100%);
+}
