@@ -1,77 +1,102 @@
 
 function updateCards(){
-question1 = document.querySelector('#question1');   
-answer1 =   document.querySelector('#answer1');
-question2 = document.querySelector('#question2');
-answer2 =   document.querySelector('#answer2');
-question3 = document.querySelector('#question3');
-answer3 =   document.querySelector('#answer3');
-question4 = document.querySelector('#question4');
-answer4 =   document.querySelector('#answer4');
-question5 = document.querySelector('#question5');
-answer5 =   document.querySelector('#answer5');
-progressText = document.querySelector('#progressText');
-scoreText = document.querySelector('#scoreText');
-progressBarFull = document.querySelector('#progressBarFull');
-progressTextLength = document.querySelector('#result1');
-scoreBar = document.querySelector('#scoreBar');
 
-currentQuestion={};
-acceptingAnswers = true;
-score = 0;
+    /* assign variables */
+    question1 = document.querySelector('#question1');   
+    answer1 =   document.querySelector('#answer1');
+    question2 = document.querySelector('#question2');
+    answer2 =   document.querySelector('#answer2');
+    question3 = document.querySelector('#question3');
+    answer3 =   document.querySelector('#answer3');
+    question4 = document.querySelector('#question4');
+    answer4 =   document.querySelector('#answer4');
+    question5 = document.querySelector('#question5');
+    answer5 =   document.querySelector('#answer5');
+    progressText = document.querySelector('#progressText');
+    progress = document.querySelector('#progress');
+    scoreText = document.querySelector('#score');
+    progressBarFull = document.querySelector('#progressBarFull');
+    // progressTextLength = document.querySelector('#results');
+    scoreBarFull = document.querySelector('#scoreBar');
+    result1 = document.querySelector('#result1');
+    result2 = document.querySelector('#result2');
+    result3 = document.querySelector('#result3');
+    result4 = document.querySelector('#result4');
+    result5 = document.querySelector('#result5');
 
-questionCounter = 0;
-availableQuestions = [];
-questOrder = [];
-questions = [];
+    currentQuestion={};
+    acceptingAnswers = true;
+    score = 0;
 
-fetch('data/flashcardQA.json').then(resp =>{
-    console.log(resp);
-    return resp.json();
-}).then(loadedQuestions =>{
+    questionCounter = 0;
+    availableQuestions = [];
+    questOrder = [];
+    questions = [];
 
-    //console.log(loadedQuestions);
-    questions = loadedQuestions;
-   
-    startGame();
-});
+ /* fetch data */
+    fetch('data/flashcardQA.json').then(resp =>{
+        console.log('fetch response ',resp);
+        return resp.json();
+    }).then(loadedQuestions =>{
+        questions = loadedQuestions;
+        numberOfQuestions = questions.length;
+        console.log('number of questions ',numberOfQuestions);
+        startGame();
+    });
 }
 
 SCORE_POINTS = 100;
 MAX_QUESTIONS = 5;
+num = SCORE_POINTS/MAX_QUESTIONS;
+
+ /* game logic */
 
 startGame=()=> {
-    questionCounter=0;
-    score=20;
-    availableQuestions=[...questions];
+    console.log('score ', score, 'numb points per question',num, 'numberOfQuestions ', numberOfQuestions);
+    updateGameStats(score, numberOfQuestions);
     getNewQuestion();
 };
 
-getNewQuestion=()=>{
+ /* game stats container */
+
+updateGameStats=(score, numQ)=>{
+    results1 = availableQuestions;
+    results2 = score/numQ;
+    results3 = results1 =- results2;
+    results4 = availableQuestions =- results2;
+    results5 = results2/(availableQuestions - numQ)*100;
+    numQ--;
+    console.log('score at start of updateGameStats ',score, 'numbQs ', numQ);
+    availableQuestions=[...questions];
     if(availableQuestions.length === 0 || questionCounter >= MAX_QUESTIONS){
         localStorage.setItem('mostRecentScore',score);
-        score = 20;
+        // if(answer == true){
+        //     score++;
+        //     availableQuestions--;
+        //     console.log('score ', score, 'availableQuestions ', availableQuestions);
+        //     score.innerText = score;
+        // }
+        console.log(score, availableQuestions.length, numQ);
 
+        
         return window.location.assign('/Workings/Slider_Flips/end.html');
     }
-    console.log(availableQuestions.length);
-/************************************************* */
-    var percent = 10;
-    progressBarFull.style.width = percent + "%";
-    function increase(){
-      percent = percent > 90 ? 10 : percent + 10;
-      document.querySelector(".progressBarFull").style.width = percent + "%";
-    }
-
-/********************************************* */
-
+    
     questionCounter++;
     progressText.innerText = `Question ${questionCounter} of ${MAX_QUESTIONS}`;
-    progressBarFull = `${(questionCounter/MAX_QUESTIONS)*100}%`;
+    progress.innerText = `Progress through Quiz ${(questionCounter/numberOfQuestions)*100}%`;
+    progressBarFull.style.width = `${(progress.innerText)}%`;
 
-    scoreText =`Score ${score}`;
-   
+
+
+    scoreText =`Score: ${score}`;
     scoreBar.style.width = `${(score/(SCORE_POINTS*100))*100}%`;
+
+    console.log('available questions', availableQuestions.length, 'current score ',score, 'number of questions ', numberOfQuestions, 'question counter ', questionCounter, 'progress bar variable ' , progressBarFull);
+};
+
+getNewQuestion=()=>{
+
 
     var questOrder = shuffle([1,2,3,4,0]);
 
@@ -88,7 +113,7 @@ getNewQuestion=()=>{
         }
         return questOrder;
     }
-    console.log(questOrder);
+    console.log('question order ', questOrder);
 
     qu1= questions[0];
     qu1a = qu1.question;
@@ -125,7 +150,7 @@ getNewQuestion=()=>{
     question5 = `Q: ${qu5a}`;
     answer5 = `A: ${a5a}`;
 
-    console.log(question1, answer1, question2, answer2, question3, answer3, question4, answer4, question5, answer5);
+    console.log('question texts ',question1, answer1, question2, answer2, question3, answer3, question4, answer4, question5, answer5);
 
 
     // choices.forEach(choice => {
@@ -139,7 +164,7 @@ getNewQuestion=()=>{
 };
 
 myFunction=(question1, answer1, question2, answer2, question3, answer3, question4, answer4, question5, answer5)=>{
-    //console.log(question1, answer1, question2, answer2, question3, answer3, question4, answer4, question5, answer5);
+    //console.log('questions in myFunction ', question1, answer1, question2, answer2, question3, answer3, question4, answer4, question5, answer5);
     document.getElementById('question1').innerText = question1;   
     document.getElementById('answer1').innerText= answer1 ;
     document.getElementById('question2').innerText = question2;
@@ -150,38 +175,25 @@ myFunction=(question1, answer1, question2, answer2, question3, answer3, question
     document.getElementById('answer4').innerText = answer4;
     document.getElementById('question5').innerText = question5;
     document.getElementById('answer5').innerText = answer5;
-    //console.log(question1, answer1, question2, answer2, question3, answer3, question4, answer4, question5, answer5);
+    console.log('end of myFunction ',score, question1, answer1, question2, answer2, question3, answer3, question4, answer4, question5, answer5);
 
 };
 
-// choices.forEach(choice =>{
-//     choice.addEventListener('click', e=>{
-//         if(!acceptingAnswers) return 
-        
-//         acceptingAnswers = false
-//         const selectedChoice = e.target
-//         const selectedAnswer = selectedChoice.dataset['number']
-
-//         let classToApply = selectedAnswer == currentQuestion.answer ? 'correct' : 'incorrect'
-
-            
-//         if(classToApply === 'correct'){
-//             incrementScore(SCORE_POINTS)
-//         }
-        
-//         selectedChoice.parentElement.classList.add(classToApply)
-
-//         setTimeout(()=>{
-//             selectedChoice.parentElement.classList.remove(classToApply)
-//             getNewQuestion()
-
-//         }, 1000)
-       
-//     })
-// })
-
-incrementScore = num =>{
-    score +=num;
+increase=()=>{
+    console.log('increment score at start ',score, num);
+    score += num;
     score.innerText = score;
+    console.log('score after increment ',score);
+    updateGameStats(score);
 };
+
+moveOn=()=>{
+    updateGameStats(score);
+};
+
+end=()=>{
+    updateGameStats();
+};
+
+
 

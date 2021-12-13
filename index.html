@@ -11,21 +11,21 @@
 </head>
 <body onload="updateCards()">
     <div class="page-title">Flashcards <br class='line-break'> for You</div>
-    <div id="hud">
-        <div class="results">
-           
-                <p id="progressText" class="hud-prefix page-text">Question
-                    <div id="progressBarFull"></div>
-                </p>
-
-                <p  class="progressText" >Score
-                    <div id="scoreBar"></div>
-                </p>
-
-                <button onclick="increase()">increase</button>
-            
+    <div class="hud">
+        <div class="hud-item">
+            <p id="progressText" class="hud-prefix page-text">Question</p>  
+            <p id='progress'class='hud-prefix page-text'>0%</p>
+            <div id="progressBar">
+                <div id="progressBarFull"></div>
+            </div>
         </div>
-
+        <div class="hud-item">
+            <p class="hud-prefix">Score</p>
+            <h1 class="hud-main-text page-text" id="score">0</h1>
+            <div id="scoreBar">
+                <div id="scoreBarFull"></div>
+            </div>
+        </div>
     </div>
     <section id="slider">
         
@@ -95,16 +95,16 @@
         <p class='page-text'>Select your slide  ~ think about the answer ~ </br> click the card to check your answer</p>
         <form action="" method="post" class='form-page'>
             <label for="no-button" class='page-text'> Did you get this one right?</label><br class='line-break'> 
-            <a href="#" class="btn btn-yes page-text" name='yes-button'>Yes</a>
-            <a href="#" class="btn btn-no page-text" name='no-button'>No</a>
-            <a href="#" class="btn btn-save page-text" id="result6">Save answers</a><br class='line-break'> 
+            <a href="#" class="btn btn-yes page-text" name='yes-button' onclick="increase()">Yes</a>
+            <a href="#" class="btn btn-no page-text" name='no-button' onclick="moveOn()">No</a>
+            <a href="#" class="btn btn-save page-text" id="result6" onclick="end()">Save answers</a><br class='line-break'> 
         </form>
         <div class="results">
-            <a href="#" class="score-card page-text" id="result1">Questions in the Set  4</a>
-            <a href="#" class="score-card page-text" id="result2">Correct Answers  4</a>
-            <a href="#" class="score-card page-text" id="result3">Wrong Answers  4</a><br class='line-break'>            
-            <a href="#" class="score-card page-text" id="result4">Questions left to answer  4</a>
-            <a href="#" class="score-card page-text" id="result5">Percentage correct so far  4</a>
+            <a href="#" class="score-card page-text" id="result1">Questions in the Set</a>
+            <a href="#" class="score-card page-text" id="result2">Correct Answers</a>
+            <a href="#" class="score-card page-text" id="result3">Wrong Answers</a><br class='line-break'>            
+            <a href="#" class="score-card page-text" id="result4">Questions left to answer</a>
+            <a href="#" class="score-card page-text" id="result5">Percentage correct so far</a>
         </div>
     </div>
     <script src="./js/game.js"></script>
