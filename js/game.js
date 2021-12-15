@@ -16,22 +16,26 @@ function updateCards(){
     progress = document.querySelector('#progress');
     scoreText = document.querySelector('#score');
     progressBarFull = document.querySelector('#progressBarFull');
-    // progressTextLength = document.querySelector('#results');
+
     scoreBarFull = document.querySelector('#scoreBar');
     result1 = document.querySelector('#result1');
     result2 = document.querySelector('#result2');
     result3 = document.querySelector('#result3');
     result4 = document.querySelector('#result4');
     result5 = document.querySelector('#result5');
+    
 
     currentQuestion={};
     acceptingAnswers = true;
     score = 0;
+    right = 0;
+    wrong = 0;
 
     questionCounter = 0;
     availableQuestions = [];
     questOrder = [];
     questions = [];
+
 
  /* fetch data */
     fetch('data/flashcardQA.json').then(resp =>{
@@ -40,7 +44,7 @@ function updateCards(){
     }).then(loadedQuestions =>{
         questions = loadedQuestions;
         numberOfQuestions = questions.length;
-        console.log('number of questions ',numberOfQuestions);
+        //console.log('number of questions ',numberOfQuestions);
         startGame();
     });
 }
@@ -48,25 +52,45 @@ function updateCards(){
 SCORE_POINTS = 100;
 MAX_QUESTIONS = 5;
 num = SCORE_POINTS/MAX_QUESTIONS;
+a=0;
+//numQ = numberOfQuestions;
 
  /* game logic */
 
-startGame=()=> {
-    console.log('score ', score, 'numb points per question',num, 'numberOfQuestions ', numberOfQuestions);
-    updateGameStats(score, numberOfQuestions);
+startGame=(numberOfQuestions)=> {
+    console.log('at Start of startGame:: score ', score, 'num points per question',num, 'numberOfQuestions ', numberOfQuestions, 'right: ', right, 'wrong: ', wrong);
     getNewQuestion();
+    updateGameStats(score, numberOfQuestions, right, wrong);
+    
 };
 
  /* game stats container */
 
-updateGameStats=(score, numQ)=>{
-    results1 = availableQuestions;
-    results2 = score/numQ;
-    results3 = results1 =- results2;
-    results4 = availableQuestions =- results2;
-    results5 = results2/(availableQuestions - numQ)*100;
-    numQ--;
-    console.log('score at start of updateGameStats ',score, 'numbQs ', numQ);
+updateGameStats=(score, numQ, right, wrong)=>{
+
+
+
+    a = right + wrong;
+    if(a == 0){
+        a = 1;
+    }
+
+    console.log('score ', score, 'numb points per question',num, 'numberOfQuestions ', numQ, 'right: ', right, 'wrong: ', wrong, 'a: ', a );
+
+    right=right;
+    wrong = wrong;
+    
+    left = numQ - a;
+    pRight = ((100 * right) / a);
+    result1 = `Questions in the Set: ${numQ}`;
+    result2 = `Correct Answers: ${right}`;
+    result3 = `Wrong Answers: ${wrong}`;
+    result4 = `Questions left to answer: ${left}`;
+    result5 = `Percent correct so far: ${pRight}`;
+    
+
+
+    console.log('right: ', right, 'wrong', wrong, 'a: ', a, 'left: ', left, '%right: ', pRight, 'score at start of updateGameStats ',score, 'numbQs ', numQ);
     availableQuestions=[...questions];
     if(availableQuestions.length === 0 || questionCounter >= MAX_QUESTIONS){
         localStorage.setItem('mostRecentScore',score);
@@ -85,14 +109,14 @@ updateGameStats=(score, numQ)=>{
     questionCounter++;
     progressText.innerText = `Question ${questionCounter} of ${MAX_QUESTIONS}`;
     progress.innerText = `Progress through Quiz ${(questionCounter/numberOfQuestions)*100}%`;
-    progressBarFull.style.width = `${(progress.innerText)}%`;
+    progressBarFull.style.width = `${(progressText)}%`;
 
 
 
     scoreText =`Score: ${score}`;
     scoreBar.style.width = `${(score/(SCORE_POINTS*100))*100}%`;
 
-    console.log('available questions', availableQuestions.length, 'current score ',score, 'number of questions ', numberOfQuestions, 'question counter ', questionCounter, 'progress bar variable ' , progressBarFull);
+    // console.log('available questions', availableQuestions.length, 'current score ',score, 'number of questions ', numberOfQuestions, 'question counter ', questionCounter, 'progress bar variable ' , progressBarFull);
 };
 
 getNewQuestion=()=>{
@@ -175,24 +199,35 @@ myFunction=(question1, answer1, question2, answer2, question3, answer3, question
     document.getElementById('answer4').innerText = answer4;
     document.getElementById('question5').innerText = question5;
     document.getElementById('answer5').innerText = answer5;
-    console.log('end of myFunction ',score, question1, answer1, question2, answer2, question3, answer3, question4, answer4, question5, answer5);
+    //console.log('end of myFunction ',score, question1, answer1, question2, answer2, question3, answer3, question4, answer4, question5, answer5);
 
 };
 
 increase=()=>{
-    console.log('increment score at start ',score, num);
+    console.log('increment score at start ',score, 'num', num);
     score += num;
+    right ++;
+    wrong = wrong;
     score.innerText = score;
-    console.log('score after increment ',score);
-    updateGameStats(score);
+    
+    
+    console.log('score after increment ',score, 'num: ', num,  'right: ', right, 'wrong: ', wrong);
+    updateGameStats(score,  right, wrong);
 };
 
 moveOn=()=>{
-    updateGameStats(score);
+    
+    score = score;
+    num = num;
+    right = right;
+    wrong ++;
+    
+    console.log('score after increment ',score, 'num: ', num,  'right: ', right, 'wrong: ', wrong);
+    updateGameStats(score, numQ, right, wrong);
 };
 
 end=()=>{
-    updateGameStats();
+    updateGameStats(score, numQ, right, wrong);
 };
 
 
