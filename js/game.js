@@ -45,19 +45,22 @@ function updateCards(){
         questions = loadedQuestions;
         numberOfQuestions = questions.length;
         //console.log('number of questions ',numberOfQuestions);
-        startGame();
+        scoring(numberOfQuestions);
+        startGame(numberOfQuestions);
     });
 }
 
+scoring=(numberOfQuestions)=>{
+MAX_QUESTIONS = numberOfQuestions.length;
 SCORE_POINTS = 100;
-MAX_QUESTIONS = 5;
 num = SCORE_POINTS/MAX_QUESTIONS;
 a=0;
-//numQ = numberOfQuestions;
+};
 
  /* game logic */
 
 startGame=(numberOfQuestions)=> {
+
     console.log('at Start of startGame:: score ', score, 'num points per question',num, 'numberOfQuestions ', numberOfQuestions, 'right: ', right, 'wrong: ', wrong);
     getNewQuestion();
     updateGameStats(score, numberOfQuestions, right, wrong);
@@ -68,53 +71,37 @@ startGame=(numberOfQuestions)=> {
 
 updateGameStats=(score, numQ, right, wrong)=>{
 
-
-
     a = right + wrong;
-    if(a == 0){
-        a = 1;
-    }
-
-    console.log('score ', score, 'numb points per question',num, 'numberOfQuestions ', numQ, 'right: ', right, 'wrong: ', wrong, 'a: ', a );
-
     right=right;
     wrong = wrong;
-    
+
     left = numQ - a;
-    pRight = ((100 * right) / a);
-    result1 = `Questions in the Set: ${numQ}`;
-    result2 = `Correct Answers: ${right}`;
-    result3 = `Wrong Answers: ${wrong}`;
-    result4 = `Questions left to answer: ${left}`;
-    result5 = `Percent correct so far: ${pRight}`;
+    if(a == 0){
+        a = 1;
+    } 
+    pRight = ((100 * right) / a).toFixed(0);
+    result1.innerText = `Questions in the Set: ${numQ}`;
+    result2.innerText = `Correct Answers: ${right}`;
+    result3.innerText = `Wrong Answers: ${wrong}`;
+    result4.innerText = `Questions left to answer: ${left}`;
+    result5.innerText = `Percent correct so far: ${pRight}%`;
     
-
-
-    console.log('right: ', right, 'wrong', wrong, 'a: ', a, 'left: ', left, '%right: ', pRight, 'score at start of updateGameStats ',score, 'numbQs ', numQ);
     availableQuestions=[...questions];
     if(availableQuestions.length === 0 || questionCounter >= MAX_QUESTIONS){
         localStorage.setItem('mostRecentScore',score);
-        // if(answer == true){
-        //     score++;
-        //     availableQuestions--;
-        //     console.log('score ', score, 'availableQuestions ', availableQuestions);
-        //     score.innerText = score;
-        // }
-        console.log(score, availableQuestions.length, numQ);
 
-        
         return window.location.assign('/Workings/Slider_Flips/end.html');
     }
     
-    questionCounter++;
-    progressText.innerText = `Question ${questionCounter} of ${MAX_QUESTIONS}`;
-    progress.innerText = `Progress through Quiz ${(questionCounter/numberOfQuestions)*100}%`;
-    progressBarFull.style.width = `${(progressText)}%`;
+    // questionCounter++;
+    // progressText.innerText = `Question ${questionCounter} of ${MAX_QUESTIONS}`;
+    // progress.innerText = `Progress through Quiz ${(questionCounter/numberOfQuestions)*100}%`;
+    // progressBarFull.style.width = `${(progressText)}%`;
 
 
 
-    scoreText =`Score: ${score}`;
-    scoreBar.style.width = `${(score/(SCORE_POINTS*100))*100}%`;
+    // scoreText =`Score: ${score}`;
+    // scoreBar.style.width = `${(score/(SCORE_POINTS*100))*100}%`;
 
     // console.log('available questions', availableQuestions.length, 'current score ',score, 'number of questions ', numberOfQuestions, 'question counter ', questionCounter, 'progress bar variable ' , progressBarFull);
 };
@@ -207,27 +194,27 @@ increase=()=>{
     console.log('increment score at start ',score, 'num', num);
     score += num;
     right ++;
-    wrong = wrong;
+    // wrong = wrong;
     score.innerText = score;
     
     
-    console.log('score after increment ',score, 'num: ', num,  'right: ', right, 'wrong: ', wrong);
-    updateGameStats(score,  right, wrong);
+    //console.log('score after increment ',score, 'num: ', num,  'right: ', right, 'wrong: ', wrong);
+    updateGameStats(score, availableQuestions.length, right, wrong);
 };
 
 moveOn=()=>{
     
-    score = score;
-    num = num;
-    right = right;
+    // score = score;
+    // num = num;
+    // right = right;
     wrong ++;
     
-    console.log('score after increment ',score, 'num: ', num,  'right: ', right, 'wrong: ', wrong);
-    updateGameStats(score, numQ, right, wrong);
+    //console.log('score after increment ',score, 'num: ', num,  'right: ', right, 'wrong: ', wrong);
+    updateGameStats(score, availableQuestions.length, right, wrong);
 };
 
 end=()=>{
-    updateGameStats(score, numQ, right, wrong);
+    updateGameStats(score, availableQuestions.length, right, wrong);
 };
 
 
