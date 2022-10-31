@@ -12,19 +12,23 @@ function updateCards(){
     answer4 =   document.querySelector('#answer4');
     question5 = document.querySelector('#question5');
     answer5 =   document.querySelector('#answer5');
-    progressText = document.querySelector('#progressText');
-    progress = document.querySelector('#progress');
-    scoreText = document.querySelector('#score');
-    progressBarFull = document.querySelector('#progressBarFull');
+    question6 = document.querySelector('#question6');   
+    answer6 =   document.querySelector('#answer6');
+    question7 = document.querySelector('#question7');
+    answer7 =   document.querySelector('#answer7');
+    question8 = document.querySelector('#question8');
+    answer8 =   document.querySelector('#answer8');
+    question9 = document.querySelector('#question9');
+    answer9 =   document.querySelector('#answer9');
+    question10 = document.querySelector('#question10');
+    answer10 =   document.querySelector('#answer10');
 
-    scoreBarFull = document.querySelector('#scoreBar');
     result1 = document.querySelector('#result1');
     result2 = document.querySelector('#result2');
     result3 = document.querySelector('#result3');
     result4 = document.querySelector('#result4');
     result5 = document.querySelector('#result5');
     
-
     currentQuestion={};
     acceptingAnswers = true;
     score = 0;
@@ -44,27 +48,32 @@ function updateCards(){
     }).then(loadedQuestions =>{
         questions = loadedQuestions;
         numberOfQuestions = questions.length;
-        //console.log('number of questions ',numberOfQuestions);
+        console.log(numberofQuestions);
+        // usedQuests = getRandomInt(numberOfQuestions);
+        
+        console.log('number of questions ',numberOfQuestions, 'used questions ',usedQuests);
         scoring(numberOfQuestions);
         startGame(numberOfQuestions);
     });
 }
 
+function getRandomInt(max){
+    return Math.floor(Math.random() * max);
+  }
+
 scoring=(numberOfQuestions)=>{
-MAX_QUESTIONS = numberOfQuestions.length;
-SCORE_POINTS = 100;
-num = SCORE_POINTS/MAX_QUESTIONS;
-a=0;
+    MAX_QUESTIONS = numberOfQuestions.length;
+    SCORE_POINTS = 100;
+    num = SCORE_POINTS/MAX_QUESTIONS;
+    a=0;
 };
 
  /* game logic */
 
 startGame=(numberOfQuestions)=> {
-
     console.log('at Start of startGame:: score ', score, 'num points per question',num, 'numberOfQuestions ', numberOfQuestions, 'right: ', right, 'wrong: ', wrong);
     getNewQuestion();
-    updateGameStats(score, numberOfQuestions, right, wrong);
-    
+    updateGameStats(score, numberOfQuestions, right, wrong);   
 };
 
  /* game stats container */
@@ -85,30 +94,17 @@ updateGameStats=(score, numQ, right, wrong)=>{
     result3.innerText = `Wrong Answers: ${wrong}`;
     result4.innerText = `Questions left to answer: ${left}`;
     result5.innerText = `Percent correct so far: ${pRight}%`;
-    
     availableQuestions=[...questions];
     if(availableQuestions.length === 0 || questionCounter >= MAX_QUESTIONS){
         localStorage.setItem('mostRecentScore',score);
 
         return window.location.assign('/Workings/Slider_Flips/end.html');
     }
-    
-    // questionCounter++;
-    // progressText.innerText = `Question ${questionCounter} of ${MAX_QUESTIONS}`;
-    // progress.innerText = `Progress through Quiz ${(questionCounter/numberOfQuestions)*100}%`;
-    // progressBarFull.style.width = `${(progressText)}%`;
-
-
-
-    // scoreText =`Score: ${score}`;
-    // scoreBar.style.width = `${(score/(SCORE_POINTS*100))*100}%`;
-
-    // console.log('available questions', availableQuestions.length, 'current score ',score, 'number of questions ', numberOfQuestions, 'question counter ', questionCounter, 'progress bar variable ' , progressBarFull);
 };
 
+
+
 getNewQuestion=()=>{
-
-
     var questOrder = shuffle([1,2,3,4,0]);
 
     function shuffle(questOrder) {
@@ -163,19 +159,11 @@ getNewQuestion=()=>{
 
     console.log('question texts ',question1, answer1, question2, answer2, question3, answer3, question4, answer4, question5, answer5);
 
-
-    // choices.forEach(choice => {
-    //     const number = choice.dataset['number'];
-    //     choice.innerText = currentQuestion['choice'+ number];
-    // });
-
-    // availableQuestions.splice(questionsIndex,1)
     myFunction(question1, answer1, question2, answer2, question3, answer3, question4, answer4, question5, answer5);
     acceptingAnswers = true;
 };
 
 myFunction=(question1, answer1, question2, answer2, question3, answer3, question4, answer4, question5, answer5)=>{
-    //console.log('questions in myFunction ', question1, answer1, question2, answer2, question3, answer3, question4, answer4, question5, answer5);
     document.getElementById('question1').innerText = question1;   
     document.getElementById('answer1').innerText= answer1 ;
     document.getElementById('question2').innerText = question2;
@@ -194,19 +182,12 @@ increase=()=>{
     console.log('increment score at start ',score, 'num', num);
     score += num;
     right ++;
-    // wrong = wrong;
     score.innerText = score;
-    
-    
     //console.log('score after increment ',score, 'num: ', num,  'right: ', right, 'wrong: ', wrong);
     updateGameStats(score, availableQuestions.length, right, wrong);
 };
 
 moveOn=()=>{
-    
-    // score = score;
-    // num = num;
-    // right = right;
     wrong ++;
     
     //console.log('score after increment ',score, 'num: ', num,  'right: ', right, 'wrong: ', wrong);
@@ -218,4 +199,30 @@ end=()=>{
 };
 
 
+showSlides(slideIndex);
 
+// Next/previous controls
+function plusSlides(n) {
+  showSlides(slideIndex += n);
+}
+
+// Thumbnail image controls
+function currentSlide(n) {
+  showSlides(slideIndex = n);
+}
+
+function showSlides(n) {
+  var i;
+  var slides = document.getElementsByClassName("slide-card-inner");
+  var dots = document.getElementsByClassName("dot");
+  if (n > slides.length) {slideIndex = 1;}
+  if (n < 1) {slideIndex = slides.length;}
+  for (i = 0; i < slides.length; i++) {
+      slides[i].style.display = "none";
+  }
+  for (i = 0; i < dots.length; i++) {
+      dots[i].className = dots[i].className.replace(" active", "");
+  }
+  slides[slideIndex-1].style.display = "block";
+  dots[slideIndex-1].className += " active";
+}
